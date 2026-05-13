@@ -9,15 +9,11 @@ const protect = async (req, res, next) => {
         .status(401)
         .json({ success: false, message: "Unauthorized access" });
     }
-    console.log("authHeader", authHeader);
     const token = authHeader.split(" ")[1];
-    console.log("Token", token);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("Decoded Value", decoded);
     req.user = decoded;
     next();
   } catch (err) {
-    console.log(err);
     return res.status(401).json({
       success: false,
       message: "Invalid Token",
@@ -25,4 +21,14 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = protect;
+const adminOnly = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "Admin access only",
+    });
+  }
+  next();
+};
+
+module.exports = { protect, adminOnly };

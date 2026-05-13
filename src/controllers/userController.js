@@ -17,4 +17,11 @@ const getCurrentUsers = async (req, res) => {
   }
 };
 
-module.exports = { getCurrentUsers };
+const getAdmin = (req, res) => {
+  return res.status(200).json({
+    success: true,
+    message: "welcome Admin",
+  });
+};
+
+module.exports = { getCurrentUsers, getAdmin };
