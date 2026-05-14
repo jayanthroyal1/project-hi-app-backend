@@ -12,7 +12,6 @@ const getCurrentUsers = async (req, res) => {
       .status(200)
       .json({ success: true, message: "User Found", data: user });
   } catch (err) {
-    console.log("getCurrentUser", err);
     return res.status(500).json({ success: false, message: err.message });
   }
 };
